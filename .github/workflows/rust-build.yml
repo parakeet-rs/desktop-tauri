@@ -31,7 +31,7 @@ jobs:
           toolchain: stable
 
       - name: install dependencies (ubuntu only)
-        if: ${{ contains(matrix.platform, 'ubuntu') }}
+        if: ${{ contains(matrix.os, 'ubuntu') }}
         run: |
           sudo apt-get update
           sudo apt-get install -y \
