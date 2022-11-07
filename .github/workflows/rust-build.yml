@@ -25,7 +25,7 @@ jobs:
           prefix-key: 'rust-v0'
 
       - name: Build
-        run: yarn tauri build
+        run: yarn && yarn tauri build
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v3.1.1
