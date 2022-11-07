@@ -2,9 +2,9 @@ name: Rust
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ['main']
   pull_request:
-    branches: [ "main" ]
+    branches: ['main']
 
 env:
   CARGO_TERM_COLOR: always
@@ -14,28 +14,28 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        os: ["ubuntu-22.04", "windows-2022"]
-    runs-on: "${{ matrix.os }}"
+        os: ['ubuntu-22.04', 'windows-2022']
+    runs-on: '${{ matrix.os }}'
 
     steps:
-    - uses: actions/checkout@v3
-    - run: rustup toolchain install stable --profile minimal
-    - uses: Swatinem/rust-cache@v2
-      with:
-        prefix-key: "rust-v0"
+      - uses: actions/checkout@v3
+      - run: rustup toolchain install stable --profile minimal
+      - uses: Swatinem/rust-cache@v2
+        with:
+          prefix-key: 'rust-v0'
 
-    - name: Build
-      run: yarn tauri build
+      - name: Build
+        run: yarn tauri build
 
-    - name: Upload Artifact
-      uses: actions/upload-artifact@v3.1.1
-      with:
-        name: "parakeet-desktop-${{ matrix.os }}"
-        path: "src-tauri/target/release/Parakeet Desktop*"
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3.1.1
+        with:
+          name: 'parakeet-desktop-${{ matrix.os }}'
+          path: 'src-tauri/target/release/Parakeet Desktop*'
 
-    - name: Upload Windows Installer
-      if: ${{ contains( matrix.os, "windows" ) }}
-      uses: actions/upload-artifact@v3.1.1
-      with:
-        name: "parakeet-desktop-installer-${{ matrix.os }}"
-        path: "src-tauri/target/release/bundle/msi/*.msi"
+      - name: Upload Windows Installer
+        if: ${{ contains( matrix.os, 'windows' ) }}
+        uses: actions/upload-artifact@v3.1.1
+        with:
+          name: 'parakeet-desktop-installer-${{ matrix.os }}'
+          path: 'src-tauri/target/release/bundle/msi/*.msi'
