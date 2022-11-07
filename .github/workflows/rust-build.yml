@@ -48,15 +48,30 @@ jobs:
       - name: Build
         run: yarn && yarn tauri build
 
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v3.1.1
-        with:
-          name: 'parakeet-desktop-${{ matrix.os }}'
-          path: 'src-tauri/target/release/Parakeet Desktop*'
-
       - name: Upload Windows Installer
         if: ${{ contains( matrix.os, 'windows' ) }}
         uses: actions/upload-artifact@v3.1.1
         with:
-          name: 'parakeet-desktop-installer-${{ matrix.os }}'
+          name: 'parakeet-desktop-win64-installer'
           path: 'src-tauri/target/release/bundle/msi/*.msi'
+
+      - name: Upload Windows Executable
+        if: ${{ contains( matrix.os, 'windows' ) }}
+        uses: actions/upload-artifact@v3.1.1
+        with:
+          name: 'parakeet-desktop-win64-portable'
+          path: 'src-tauri/target/release/*.exe'
+
+      - name: Upload Ubuntu AppImage
+        if: ${{ contains( matrix.os, 'ubuntu' ) }}
+        uses: actions/upload-artifact@v3.1.1
+        with:
+          name: 'parakeet-desktop-linux-AppImage'
+          path: 'src-tauri/target/release/bundle/appimage/*.AppImage'
+
+      - name: Upload deb Package
+        if: ${{ contains( matrix.os, 'ubuntu' ) }}
+        uses: actions/upload-artifact@v3.1.1
+        with:
+          name: 'parakeet-desktop-linux-deb'
+          path: 'src-tauri/target/release/bundle/deb/*.deb'
