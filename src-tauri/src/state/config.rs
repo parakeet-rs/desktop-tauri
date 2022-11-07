@@ -15,7 +15,7 @@ pub struct AppConfig {
 }
 
 impl AppConfig {
-    pub fn read_from_json(&mut self, json: &String) {
+    pub fn read_from_json(&mut self, json: &str) {
         if let Ok(new_data) = serde_json::from_str::<AppConfig>(json) {
             *self = new_data;
         }
@@ -43,15 +43,15 @@ impl AppConfig {
         let serialised = serde_json::to_string_pretty(self).unwrap();
         if let Ok(mut file) = File::create(config_file_path) {
             file.write_all(serialised.as_bytes())
-                .or_else(|_| Err("could not write config"))?;
+                .map_err(|_| "could not write config")?;
             Ok(())
         } else {
             Err(String::from("open config file failed"))
         }
     }
 
-    pub fn to_json(&self) -> String {
-        serde_json::to_string_pretty(self).unwrap()
+    pub fn to_json(self) -> String {
+        serde_json::to_string_pretty(&self).unwrap()
     }
 }
 
