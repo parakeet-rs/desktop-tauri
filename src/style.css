@@ -1,9 +1,24 @@
 :root {
-  /* global variables here */
+  --parakeet-font-text: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica,
+    Arial, 'Microsoft YaHei UI', 'Microsoft JHengHei UI', sans-serif,
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+  --parakeet-font-mono: SFMono-Regular, Menlo, Monaco, Consolas,
+    'Liberation Mono', 'Courier New', 'Sarasa Mono SC', 'Microsoft YaHei UI',
+    'Microsoft JHengHei UI', monospace;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     /* global variables here */
   }
+}
+
+body {
+  margin: 0;
+  height: 100vh;
+  user-select: none;
+}
+
+* {
+  box-sizing: content-box;
 }

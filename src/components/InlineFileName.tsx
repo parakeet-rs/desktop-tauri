@@ -7,4 +7,6 @@ export const InlineFileName = styled.code`
   overflow: hidden;
   white-space: nowrap;
   display: inline-block;
+  font-size: smaller;
+  font-family: var(--parakeet-font-mono);
 `;

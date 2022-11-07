@@ -12,8 +12,8 @@ pub struct FileStatData {
 
 #[tauri::command]
 pub fn stat_file<R: Runtime>(
-    app: tauri::AppHandle<R>,
-    window: tauri::Window<R>,
+    _app: tauri::AppHandle<R>,
+    _window: tauri::Window<R>,
     path: String,
 ) -> Result<FileStatData, String> {
     println!("recv file: {:?}", path);

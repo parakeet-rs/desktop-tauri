@@ -1762,6 +1762,7 @@ dependencies = [
 name = "parakeet-desktop"
 version = "0.0.0"
 dependencies = [
+ "base64",
  "lazy_static",
  "parakeet-crypto",
  "serde",

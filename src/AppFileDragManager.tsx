@@ -6,6 +6,9 @@ import { useSetRecoilState } from 'recoil';
 import { FileDetails, processFileListState } from './states/processFilesState';
 import { invoke } from '@tauri-apps/api';
 
+// TODO: Move this to page load logic.
+invoke('fetch_config').then(console.info);
+
 export function AppFileDragManager({ children }: { children: ReactNode }) {
   const setDragging = useSetRecoilState(draggingState);
   const setProcessFileListState = useSetRecoilState(processFileListState);

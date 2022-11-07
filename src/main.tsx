@@ -8,9 +8,14 @@ import defaultTheme from './theme';
 import App from './App';
 import './style.css';
 
-if (process.env.NODE_ENV === 'production') {
-  document.addEventListener('contextmenu', (event) => event.preventDefault());
-}
+// if (process.env.NODE_ENV === 'production') {
+//   document.addEventListener('contextmenu', (event) => {
+//     const tagName = (event.target as HTMLElement).tagName.toLowerCase();
+//     if (tagName !== 'input' && tagName !== 'textarea') {
+//       event.preventDefault();
+//     }
+//   });
+// }
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
