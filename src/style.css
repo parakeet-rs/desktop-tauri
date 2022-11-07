@@ -1,0 +1,9 @@
+:root {
+  /* global variables here */
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* global variables here */
+  }
+}
