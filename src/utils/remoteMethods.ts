@@ -33,3 +33,7 @@ export async function reloadConfig(): Promise<AppConfig> {
   const configJson: string = await invoke('reload_config');
   return convertConfigFromRust(JSON.parse(configJson));
 }
+
+export async function decryptQmc2(path: string): Promise<void> {
+  return invoke('decrypt_qmc2', { path });
+}

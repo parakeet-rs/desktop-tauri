@@ -26,6 +26,7 @@ fn main() {
             commands::config::reload_config,
             commands::util::b64_to_hex,
             commands::util::hex_to_b64,
+            commands::crypto::decrypt_qmc2,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

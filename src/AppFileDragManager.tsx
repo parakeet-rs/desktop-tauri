@@ -45,6 +45,7 @@ export function AppFileDragManager({ children }: { children: ReactNode }) {
                 draft.push({
                   file,
                   type: 'unknown',
+                  processed: false,
                 });
               }
             }

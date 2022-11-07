@@ -8,10 +8,10 @@ use serde::{Deserialize, Serialize};
 
 use super::qmc2_config::QMC2Config;
 
-#[derive(Debug, Default, Serialize, Deserialize)]
+#[derive(Debug, Clone, Copy, Default, Serialize, Deserialize)]
 #[serde(default)]
 pub struct AppConfig {
-    qmc2: QMC2Config,
+    pub qmc2: QMC2Config,
 }
 
 impl AppConfig {
