@@ -35,13 +35,12 @@ export function HexInput({
     },
     []
   );
+
   const validateAndReset = useCallback(() => {
-    setControlledValue((oldValue) => {
-      const hexString = normaliseHexString(oldValue);
-      onChange(hexString);
-      return hexString;
-    });
-  }, []);
+    const hexString = normaliseHexString(controlledValue);
+    setControlledValue(hexString);
+    onChange(hexString);
+  }, [controlledValue]);
 
   return (
     <Box>
@@ -52,6 +51,7 @@ export function HexInput({
           value={controlledValue}
           onChange={handleInputChange}
           onBlur={validateAndReset}
+          spellCheck={false}
           placeholder="0x00, 0x01, ..."
           size="sm"
         />

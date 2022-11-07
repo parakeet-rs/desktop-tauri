@@ -3,7 +3,7 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Default, Serialize, Deserialize)]
 #[serde(default)]
-pub struct QMC2ConfigState {
+pub struct QMC2Config {
     seed: u8,
 
     #[serde(
