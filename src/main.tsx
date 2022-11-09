@@ -4,27 +4,22 @@ import { AppFileDragManager } from './AppFileDragManager';
 import { RecoilRoot } from 'recoil';
 import { ChakraProvider } from '@chakra-ui/react';
 import defaultTheme from './theme';
+import { Provider } from 'react-redux';
+import { store } from './app/store';
 
 import App from './App';
 import './style.css';
 
-// if (process.env.NODE_ENV === 'production') {
-//   document.addEventListener('contextmenu', (event) => {
-//     const tagName = (event.target as HTMLElement).tagName.toLowerCase();
-//     if (tagName !== 'input' && tagName !== 'textarea') {
-//       event.preventDefault();
-//     }
-//   });
-// }
-
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <RecoilRoot>
-      <ChakraProvider theme={defaultTheme}>
-        <AppFileDragManager>
-          <App />
-        </AppFileDragManager>
-      </ChakraProvider>
+      <Provider store={store}>
+        <ChakraProvider theme={defaultTheme}>
+          <AppFileDragManager>
+            <App />
+          </AppFileDragManager>
+        </ChakraProvider>
+      </Provider>
     </RecoilRoot>
   </React.StrictMode>
 );

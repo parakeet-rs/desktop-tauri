@@ -1,40 +1,49 @@
 import { useCallback } from 'react';
 import { Button, Center, Flex, Box, Heading, useToast } from '@chakra-ui/react';
-import { useRecoilState, useRecoilValue } from 'recoil';
-import {
-  processFileListState,
-  unprocessedFilesState,
-} from './states/processFilesState';
-import { FileTable } from './components/FileTable';
 import { ConfigPage } from './ConfigPage';
 import { decryptQmc2 } from './utils/remoteMethods';
-import produce from 'immer';
+import { DecryptionList } from './features/decryptionList/DecryptionList';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  selectUnprocessedFiles,
+  setFileState,
+} from './features/decryptionList/decryptionListSlice';
+import { AppDispatch } from './app/store';
 
 function App() {
   const toast = useToast();
-  const [fileList, setFileList] = useRecoilState(processFileListState);
-  const unprocessedFiles = useRecoilValue(unprocessedFilesState);
+  const dispatch = useDispatch<AppDispatch>();
+  const unprocessedFiles = useSelector(selectUnprocessedFiles);
 
   const handleFileClick = useCallback(() => {}, []);
   const handleQMC2Decryption = useCallback(async () => {
     for (const file of unprocessedFiles) {
-      await decryptQmc2(file.file.path).catch((err) => {
+      dispatch(
+        setFileState({
+          path: file.path,
+          state: 'in-progress',
+        })
+      );
+
+      await decryptQmc2(file.path).catch((err) => {
         console.error('处理文件发生错误', err);
+        setFileState({
+          path: file.path,
+          state: 'failed',
+        });
         toast({
           title: '发生错误',
-          description: `处理 ${file.file.name} 时发生错误：${err}`,
+          description: `处理 ${file.name} 时发生错误：${err}`,
           status: 'error',
           duration: 5000,
           isClosable: true,
         });
       });
 
-      setFileList((oldFileList) =>
-        produce(oldFileList, (draft) => {
-          const item = draft.find((item) => item.file.path === file.file.path);
-          if (item) {
-            item.processed = true;
-          }
+      dispatch(
+        setFileState({
+          path: file.path,
+          state: 'processed',
         })
       );
     }
@@ -61,7 +70,7 @@ function App() {
           </Box>
         </Flex>
         <Box flex={1} flexGrow={1} overflow="auto">
-          <FileTable files={fileList} />
+          <DecryptionList />
         </Box>
         <Box borderTop="1px solid" borderTopColor="teal.300" p={2}>
           <Flex>

@@ -1,6 +1,5 @@
 import { invoke } from '@tauri-apps/api';
 import { AppConfig } from '../states/configState';
-import { FileDetails } from '../states/processFilesState';
 import {
   convertConfigFromRust,
   convertConfigToRust,
@@ -14,6 +13,12 @@ async function timedInvoke<T>(command: string, ...args: unknown[]): Promise<T> {
     const deltaTime = Date.now() - startTime;
     console.info('native command [%s] took %d ms', command, deltaTime);
   }
+}
+
+interface FileDetails {
+  path: string;
+  name: string;
+  size: number;
 }
 
 export async function statFile(path: string): Promise<FileDetails> {
@@ -35,15 +40,15 @@ export async function saveConfig(config: AppConfig): Promise<void> {
 }
 
 export async function fetchConfig(): Promise<AppConfig> {
-  const configJson: string = await invoke('fetch_config');
+  const configJson: string = await timedInvoke('fetch_config');
   return convertConfigFromRust(JSON.parse(configJson));
 }
 
 export async function reloadConfig(): Promise<AppConfig> {
-  const configJson: string = await invoke('reload_config');
+  const configJson: string = await timedInvoke('reload_config');
   return convertConfigFromRust(JSON.parse(configJson));
 }
 
 export async function decryptQmc2(path: string): Promise<void> {
-  return invoke('decrypt_qmc2', { path });
+  return timedInvoke('decrypt_qmc2', { path });
 }
