@@ -1,4 +1,8 @@
-use std::{fs::File, path::Path};
+use std::{
+    fs::File,
+    io::{Seek, SeekFrom},
+    path::Path,
+};
 
 use serde::{Deserialize, Serialize};
 use tauri::Runtime;
@@ -18,9 +22,10 @@ pub fn stat_file<R: Runtime>(
 ) -> Result<FileStatData, String> {
     println!("recv file: {:?}", path);
     let file_path = Path::new(&path);
-    let f = File::open(file_path).or(Err("open file failed"))?;
-    let metadata = f.metadata().or(Err("could not query file metadata"))?;
-    let file_len = metadata.len();
+
+    let mut f = File::open(file_path).or(Err("open file failed"))?;
+    let pos = f.seek(SeekFrom::End(0)).or(Err("seek file failed"))?;
+    let file_len = pos;
 
     let path = file_path.to_str().ok_or("path.to_str() failed")?.to_owned();
     let name = Path::new(&path)

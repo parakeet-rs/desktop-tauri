@@ -6,20 +6,30 @@ import {
   convertConfigToRust,
 } from './convertConfigFormat';
 
+async function timedInvoke<T>(command: string, ...args: unknown[]): Promise<T> {
+  const startTime = Date.now();
+  try {
+    return await invoke(command, ...(args as any));
+  } finally {
+    const deltaTime = Date.now() - startTime;
+    console.info('native command [%s] took %d ms', command, deltaTime);
+  }
+}
+
 export async function statFile(path: string): Promise<FileDetails> {
-  return invoke('stat_file', { path });
+  return timedInvoke('stat_file', { path });
 }
 
 export async function base64ToHex(text: string): Promise<string> {
-  return invoke('b64_to_hex', { text });
+  return timedInvoke('b64_to_hex', { text });
 }
 
 export async function hexToBase64(text: string): Promise<string> {
-  return invoke('hex_to_b64', { text });
+  return timedInvoke('hex_to_b64', { text });
 }
 
 export async function saveConfig(config: AppConfig): Promise<void> {
-  return invoke('save_config', {
+  return timedInvoke('save_config', {
     json: JSON.stringify(await convertConfigToRust(config)),
   });
 }
